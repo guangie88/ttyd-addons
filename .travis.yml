@@ -1,0 +1,43 @@
+language: bash
+
+env:
+  global:
+  - IMAGE_NAME=ttyd-addons
+  - PACKAGE_VERSION=v1.0
+
+matrix:
+  include:
+  - services: docker
+    env:
+    - DIST=alpine
+    - DOCKER_TAG=alpine
+  - services: docker
+    env:
+    - DIST=alpine
+    - DOCKER_TAG=1.5.2-alpine
+  - services: docker
+    env:
+    - DIST=ubuntu
+    - DOCKER_TAG=latest
+  - services: docker
+    env:
+    - DIST=ubuntu
+    - DOCKER_TAG=1.5.2
+
+script:
+- shellcheck push-images.sh
+- TAG_NAME="${PACKAGE_VERSION}_${DOCKER_TAG}"
+- |-
+  docker build "${DIST}/" -t "${IMAGE_NAME}:${TAG_NAME}" \
+    --build-arg "DOCKER_TAG=${DOCKER_TAG}" \
+    ;
+
+deploy:
+  provider: script
+  script: bash push-images.sh
+  on:
+    branch: master
+
+branches:
+  only:
+  - master
