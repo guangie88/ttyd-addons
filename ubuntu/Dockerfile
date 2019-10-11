@@ -1,5 +1,4 @@
-ARG DOCKER_TAG=latest
-FROM tsl0922/ttyd:${DOCKER_TAG}
+FROM tsl0922/ttyd:latest
 
 SHELL ["bash", "-c"]
 
