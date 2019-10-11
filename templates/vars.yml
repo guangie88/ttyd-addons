@@ -1,0 +1,6 @@
+matrix:
+- dist:        alpine
+  docker_tags: ['alpine', '1.5.2-alpine']
+
+- dist:        ubuntu
+  docker_tags: ['latest', '1.5.2']
